@@ -6,18 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+    <script>
+      // disabling errors gives so much better performance
+      p5.disableFriendlyErrors = true;
+      	  
+      var table;
+      function preload() {
+	  table = loadTable("smolerflights.csv","csv","header")
+      }
+
+      function dedup(arr) {
+	  return arr.filter((item,i) => arr.indexOf(item) === i);
+      }
+
+      let filtered = [];
+      
+      
+      function setup() {
+	  let cnv = createCanvas(windowWidth,windowHeight, WEBGL)
+	  cnv.position(0, 0, 'fixed');
+	  cnv.elt.style["z-index"] = 1;
+	  
+	  var rows = table.getRows()
+	  pos = [];
+	  for (var r = 0; r < rows.length; r++) {
+	      pos.push({"lat": rows[r].getNum("from_lat"), "lon": rows[r].getNum("from_long")});
+	  }
+	  filtered = dedup(pos);
+      }
+
+      let diameter = 600;
+      let radius = diameter / 2;
+
+      
+      function draw() {
+	  angleMode(DEGREES)
+	  rotate(5, createVector(0,0,1));
+	  let yAxis = createVector(0,1,0);
+	  rotate(frameCount / 4, yAxis);
+	  background(0);
+	  for (var i = 0; i < filtered.length; i++) {
+	      let lon = filtered[i].lon;
+	      let lat = filtered[i].lat;
+ 	      let x = radius * cos(- lat) * cos(lon);
+	      let z = radius * cos(- lat) * sin(lon);
+	      let y = radius * sin(- lat);
+	      // some *sparkles*
+	      stroke(color('hsb(0, 0%, ' + (60 + sin((x + y + z) / 8) * random(40)).toString() + '%' +')'));
+	      point(x,y,z);
+	  }
+	  stroke('gray');
+	  noFill();
+	  ellipse(0, 0, diameter, diameter, 40);
+	  rotate(45, yAxis);
+	  ellipse(0, 0, diameter, diameter, 40);
+	  rotate(45, yAxis);
+	  ellipse(0, 0, diameter, diameter, 40);
+	  rotate(45, yAxis);
+	  ellipse(0, 0, diameter, diameter, 40);
+
+      }
+</script>
+
   </head>
   <body>
     <h1 class="p">
       THE PARTICIPATIVE AUDIO LAB WILL BE INAUGURATED WORLDWIDE ON THE FIRST
       WEEK OF FEBRUARY 2023 THROUGH THIS PAGE, AND IN A BERLIN SITE SPECIFIC
       INSTALLATION WITHIN THE CONTEXT OF CTM FESTIVAL.
-    </h1>
-
+    </h1> 
     <h1 class="p">GET NOTIFIED <a href="https://5bozmtu3b9n.typeform.com/to/PmDjCGpg"> HERE </a> </h1>
-    
     <h1 class="p">JOIN OUR HACKATHON <a href="https://forms.gle/WiSyZ6bo4wu3aep76"> HERE </a></h1>
-
-    <img src="assets/bllack2.png" alt="logo" width="300px">
+    <img src="assets/bllack2.png" alt="logo" width="300px" style="z-index: 2; position: relative;">
   </body>
+  
 </html>
