@@ -21,6 +21,16 @@
   position: relative;
   z-index: 2;
 }
+.p2 {
+  background-color: transparent;   
+  font-size: 18px;  
+  font-family: 'schneeregular';
+  color: white;
+  padding: 10px;
+  margin-left: 27px;
+  position: relative;
+  z-index: 2;
+}
 
 .logo {
   
