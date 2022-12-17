@@ -30,11 +30,14 @@
   margin-left: 27px;
   position: relative;
   z-index: 2;
+  display: flex;
+  margin-top: auto;
+}
+
+#second {
+	margin-top: 100%;
 }
 
 .logo {
-  
     background-color: transparent;   
-
-  
 }
